@@ -3,62 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Porcentagens</title>
+    <title>Calculadora de Porcentagens Avançada</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-hover: #45a049;
+            --secondary: #2196F3;
+            --dark: #333;
+            --light: #f8f9fa;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.15);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
+            font-family: 'Poppins', Arial, sans-serif;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f0f0f0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
         }
 
         .container {
             background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(0);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .container:hover {
+            box-shadow: 0 12px 24px rgba(0,0,0,0.25);
         }
 
         .section {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        h2 {
+            color: var(--dark);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
         }
 
         input[type="number"] {
-            padding: 8px;
-            margin: 5px;
-            width: 200px;
+            padding: 12px 15px;
+            margin: 8px 5px;
+            width: 220px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+            outline: none;
+            transform: scale(1.02);
+        }
+
+        select {
+            padding: 12px 15px;
+            margin: 8px 5px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            box-shadow: var(--shadow-sm);
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+            outline: none;
         }
 
         button {
-            padding: 8px 15px;
-            background-color: #4CAF50;
+            padding: 12px 25px;
+            background-color: var(--primary);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        button:active {
+            transform: translateY(0);
         }
 
         .resultado {
-            margin-top: 10px;
-            padding: 10px;
+            margin-top: 20px;
+            padding: 15px;
             background-color: #e8f5e9;
-            border-radius: 4px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.5s 0.2s forwards;
         }
 
         .lista-porcentagens {
             max-height: 400px;
             overflow-y: auto;
-            margin-top: 10px;
+            margin-top: 15px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.5s 0.4s forwards;
         }
 
         .item-lista {
-            padding: 5px;
-            border-bottom: 1px solid #ddd;
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.2s;
+        }
+
+        .item-lista:hover {
+            background-color: #f0f0f0;
+            transform: translateX(5px);
         }
 
         .item-lista:nth-child(odd) {
@@ -66,11 +179,65 @@
         }
 
         .diferenca-positiva {
-            color: #2ecc71;
+            color: var(--success);
+            font-weight: 500;
         }
 
         .diferenca-negativa {
-            color: #e74c3c;
+            color: var(--danger);
+            font-weight: 500;
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Efeito de loading para a lista */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -84,14 +251,20 @@
                 <option value="desconto">de desconto</option>
                 <option value="aumento">de aumento</option>
             </select>
-            <button onclick="calcularPorcentagem()">Calcular</button>
+            <button onclick="calcularPorcentagem()" id="btnCalcular">
+                <span id="btnText">Calcular</span>
+                <span id="btnLoader" class="loading" style="display: none;"></span>
+            </button>
             <div id="resultado" class="resultado"></div>
         </div>
 
         <div class="section">
             <h2>Lista de Porcentagens</h2>
             <input type="number" id="numeroLista" placeholder="Digite um número">
-            <button onclick="gerarListaPorcentagens()">Gerar Lista</button>
+            <button onclick="gerarListaPorcentagens()" id="btnLista">
+                <span id="btnListaText">Gerar Lista</span>
+                <span id="btnListaLoader" class="loading" style="display: none;"></span>
+            </button>
             <div class="lista-porcentagens" id="listaPorcentagens"></div>
         </div>
     </div>
@@ -105,51 +278,136 @@
         }
 
         function calcularPorcentagem() {
+            const btnCalcular = document.getElementById('btnCalcular');
+            const btnText = document.getElementById('btnText');
+            const btnLoader = document.getElementById('btnLoader');
+            
+            // Mostrar loading
+            btnText.textContent = 'Calculando...';
+            btnLoader.style.display = 'inline-block';
+            btnCalcular.disabled = true;
+
             const numero = parseFloat(document.getElementById('numero').value);
             const porcentagem = parseFloat(document.getElementById('porcentagem').value);
             const operacao = document.getElementById('operacao').value;
             
             if (isNaN(numero) || isNaN(porcentagem)) {
+                // Efeito de shake quando há erro
+                document.querySelector('.section').style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    document.querySelector('.section').style.animation = '';
+                }, 500);
+                
                 alert("Por favor, preencha todos os campos corretamente");
+                
+                // Resetar botão
+                btnText.textContent = 'Calcular';
+                btnLoader.style.display = 'none';
+                btnCalcular.disabled = false;
                 return;
             }
 
-            let resultado, diferenca;
-            if (operacao === 'desconto') {
-                resultado = numero * (1 - (porcentagem / 100));
-                diferenca = resultado - numero;
-            } else {
-                resultado = numero * (1 + (porcentagem / 100));
-                diferenca = resultado - numero;
-            }
+            // Simular um pequeno delay para a animação
+            setTimeout(() => {
+                let resultado, diferenca;
+                if (operacao === 'desconto') {
+                    resultado = numero * (1 - (porcentagem / 100));
+                    diferenca = resultado - numero;
+                } else {
+                    resultado = numero * (1 + (porcentagem / 100));
+                    diferenca = resultado - numero;
+                }
 
-            const diferencaFormatada = operacao === 'aumento' 
-                ? `<span class="diferenca-positiva">+${formatarNumero(diferenca)}</span>` 
-                : `<span class="diferenca-negativa">${formatarNumero(diferenca)}</span>`;
+                const diferencaFormatada = operacao === 'aumento' 
+                    ? `<span class="diferenca-positiva">+${formatarNumero(diferenca)}</span>` 
+                    : `<span class="diferenca-negativa">${formatarNumero(diferenca)}</span>`;
 
-            document.getElementById('resultado').innerHTML = 
-                `Resultado: ${formatarNumero(numero)} com ${porcentagem}% ${operacao} = <strong>${formatarNumero(resultado)}</strong><br>
-                Valor alterado: ${diferencaFormatada}`;
+                document.getElementById('resultado').innerHTML = 
+                    `Resultado: ${formatarNumero(numero)} com ${porcentagem}% ${operacao} = <strong>${formatarNumero(resultado)}</strong><br>
+                    Valor alterado: ${diferencaFormatada}`;
+
+                // Efeito de pulse no resultado
+                const resultadoElement = document.getElementById('resultado');
+                resultadoElement.style.animation = 'pulse 0.5s';
+                setTimeout(() => {
+                    resultadoElement.style.animation = '';
+                }, 500);
+
+                // Resetar botão
+                btnText.textContent = 'Calcular';
+                btnLoader.style.display = 'none';
+                btnCalcular.disabled = false;
+            }, 800);
         }
 
         function gerarListaPorcentagens() {
+            const btnLista = document.getElementById('btnLista');
+            const btnListaText = document.getElementById('btnListaText');
+            const btnListaLoader = document.getElementById('btnListaLoader');
+            
+            // Mostrar loading
+            btnListaText.textContent = 'Gerando...';
+            btnListaLoader.style.display = 'inline-block';
+            btnLista.disabled = true;
+
             const numero = parseFloat(document.getElementById('numeroLista').value);
             const lista = document.getElementById('listaPorcentagens');
             lista.innerHTML = '';
 
             if (isNaN(numero)) {
+                // Efeito de shake quando há erro
+                document.querySelectorAll('.section')[1].style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    document.querySelectorAll('.section')[1].style.animation = '';
+                }, 500);
+                
                 alert("Por favor, digite um número válido");
+                
+                // Resetar botão
+                btnListaText.textContent = 'Gerar Lista';
+                btnListaLoader.style.display = 'none';
+                btnLista.disabled = false;
                 return;
             }
 
-            for (let i = 100; i >= 0; i--) {
-                const calculo = numero * (i / 100);
-                const item = document.createElement('div');
-                item.className = 'item-lista';
-                item.innerHTML = `${i}% de ${formatarNumero(numero)} = ${formatarNumero(calculo)}`;
-                lista.appendChild(item);
-            }
+            // Simular um pequeno delay para a animação
+            setTimeout(() => {
+                // Gerar a lista com animação sequencial
+                for (let i = 100; i >= 0; i--) {
+                    setTimeout(() => {
+                        const calculo = numero * (i / 100);
+                        const item = document.createElement('div');
+                        item.className = 'item-lista';
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(10px)';
+                        item.innerHTML = `${i}% de ${formatarNumero(numero)} = ${formatarNumero(calculo)}`;
+                        lista.appendChild(item);
+                        
+                        // Animar cada item individualmente
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, (100 - i) * 20);
+                }
+
+                // Resetar botão
+                btnListaText.textContent = 'Gerar Lista';
+                btnListaLoader.style.display = 'none';
+                btnLista.disabled = false;
+            }, 800);
         }
+
+        // Adicionar animação de shake
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                20%, 60% { transform: translateX(-5px); }
+                40%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
